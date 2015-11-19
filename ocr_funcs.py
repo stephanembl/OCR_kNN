@@ -96,9 +96,8 @@ def handle_results(ret, result, neighbours, dist):
 
     # On set le padding selon si le résultat est une minuscule ou une majuscule
     # Le padding nous permettra de vérifier si la lettre opposée n'est pas également dans les voisins. Exemple :
-    # - Si le résultat est un "c" minuscule et qu'il y a le "C" majuscule dans les voisins proches
-    #   on considère qu'on a trouvé "C" avec une meilleure précision donc on augmente l'accuracy du résultat
-    #   en conséquence
+    # - Si le résultat est un "c" minuscule à 60% et qu'il y a le "C" majuscule dans les voisins proches à 20%
+    #   on considère qu'on a trouvé "c" avec 80% de précision
     if result[0][0] >= 65 and result[0][0] <= 90:
         padding = 32
     elif result[0][0] >= 97 and result[0][0] <= 122:
