@@ -44,7 +44,8 @@ def build_samples(filename):
         tmp_arr.append(gray) # on rempli notre ligne 
         j = j + 1
         if j > 54:
-            # on passe à la ligne suivante (chaque ligne représente une lettre et contient autant de cases que d'échantillons de la lettre)
+            # on passe à la ligne suivante (chaque ligne représente
+            # une lettre et contient autant de cases que d'échantillons de la lettre)
             cells.append(tmp_arr)
             tmp_arr = []
             j = 1
@@ -70,7 +71,8 @@ def train_knn(filename, cells):
     x = np.array(cells)
     x_test = np.array(cells_test)
 
-    # On applati notre tableau pour que chaque case ne soit représentée que sur une ligne (une img 20x20 produira une case de 1*400 (400=20*20))
+    # On applati notre tableau pour que chaque case ne soit représentée
+    # que sur une ligne (une img 20x20 produira une case de 1*400 (400=20*20))
     train = x[:,:54].reshape(-1,area).astype(np.float32)
     test = x_test[0].reshape(-1,area).astype(np.float32)
 
@@ -84,7 +86,9 @@ def train_knn(filename, cells):
     knn = cv2.KNearest() # On crée notre instance de KNN, l'algo du voisin le plus proche
     knn.train(train,train_labels) # On entraine notre programme avec nos échantillons
 
-    return knn.find_nearest(test,k=5) # On demande ensuite de comparer l'image de test avec ce qu'il a appris pour nous sortir les voisins s'en rapprochant le plus (5 voisins max)
+    # On demande ensuite de comparer l'image de test avec ce qu'il a appris pour
+    # nous sortir les voisins s'en rapprochant le plus (5 voisins max)
+    return knn.find_nearest(test,k=5)
 
 def handle_results(ret, result, neighbours, dist):
     padding = 0
@@ -107,9 +111,12 @@ def handle_results(ret, result, neighbours, dist):
     # Format du pourcentage
     accuracy_print = '{:.0%}'.format(float((float(accuracy) + float(accuracy_outer)) / neighbours.size))
 
+    # On affiche le résultat
     print("Result(s):")
-    print("Character found: " + chr(int(result[0][0]))) + " (" + accuracy_print +" accurate)" # On affiche le résultat
-    print("Other possibilities:") # Et on affiche les voisins que kNN nous a également retourné
+    print("Character found: " + chr(int(result[0][0]))) + " (" + accuracy_print +" accurate)"
+
+    # Et on affiche les voisins que kNN nous a également retourné
+    print("Other possibilities:")
     others = []
     for character in set(neighbours[0]):
         if character != result[0][0] and character != (result[0][0] + padding):
