@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>OCR</title>
+		<script type="text/javascript" src="jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('form#scan_letter').on('submit', function(){
+				var formData = new FormData($('form#scan_letter')[0]);
+					$.ajax({
+						url: "http://212.129.0.4:5000/ocr/api/v1.0/scan_letter",
+						type: "POST",
+						data: formData,
+						async: false,
+						cache: false,
+						processData: false,
+						contentType: false,
+						success: function(json){
+							innerh = '<br />Result:<br />Char: '+json.result.char+' ('+json.result.accuracy+') <br /><br /> Other possibilities:<br />';
+							$.each(json.others, function(i, item){
+								innerh += 'Char: '+item.char+' ('+item.accuracy+')<br />';
+							});
+							$("#result").append(innerh);
+						}
+					});
+					return false;
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+		<form method="post" id="scan_letter">
+			<input type="file" name="img" />
+			<input type="hidden" name="token" value="ocrepitech" />
+			<input type="submit" value="TEST!" />
+		</form>
+		<div id="result">
+			
+		</div>
+	</body>
+</html>

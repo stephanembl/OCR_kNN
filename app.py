@@ -11,7 +11,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg', 'bmp'])
 dn = os.path.dirname(os.path.realpath(__file__))
 
-# Fonction qui vérifie si l'extension du fichier est autorisée
+# Fonction qui verifie si l'extension du fichier est autorisee
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
@@ -24,14 +24,14 @@ def index():
 # http://localhost:5000/ocr/api/v1.0/scan_letter
 @app.route('/ocr/api/v1.0/scan_letter', methods=['POST'])
 def scan_letter():
-    fileimg = request.files['img'] # On récupère le fichier 
-    token = request.form['token'] # et le token
+    fileimg = request.files['img'] # On recupere le fichier 
+    token = "ocrepitech" # et le token
     authtoken = "ocrepitech"
     
-    if fileimg and allowed_file(fileimg.filename) and token == authtoken: # Si le fichier est autorisé...
+    if fileimg and allowed_file(fileimg.filename) and token == authtoken: # Si le fichier est autorise...
         filename = secure_filename(fileimg.filename)
         fileimg.save(dn + '/' + app.config['UPLOAD_FOLDER'] + filename) # on save le fichier
-        json_res = scan_letter_from_api(dn + '/' + app.config['UPLOAD_FOLDER'] + filename) # on envoie le fichier à l'OCR
+        json_res = scan_letter_from_api(dn + '/' + app.config['UPLOAD_FOLDER'] + filename) # on envoie le fichier a l'OCR
         json_res = jsonify(json_res)
         data = json_res.data
         
@@ -41,6 +41,7 @@ def scan_letter():
         data = {'result': '', 'error': 'Bad request'}
         resp = Response(data, status=400, mimetype="application/json")
 
+    resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
 if __name__ == "__main__":
