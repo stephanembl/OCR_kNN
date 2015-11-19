@@ -28,6 +28,7 @@ sudo apt-get install gcc g++ liblas-dev liblapack-dev python-dev gfortran libc6 
 pip install numpy
 # C'EST LONG.
 pip install cv2
+sudo apt-get install libopencv-dev python-opencv
 # C'EST MOINS LONG.
 pip install matplotlib
 # C'EST LONG.
